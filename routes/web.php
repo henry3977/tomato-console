@@ -86,11 +86,10 @@ Route::get('/schedule', function () {
 });
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return 'console';
+})->middleware('auth');
 
-Route::view('/doc','doc');
-
+Route::view('/doc','doc')->middleware('auth');
 
 Auth::routes();
 
