@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\UseScope;
 use App\Terminal;
 
 class Schedule extends Model
@@ -10,6 +11,11 @@ class Schedule extends Model
     protected $guarded = [];
     protected $appends = ['has_stop'];
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new UseScope);
+    }
+    
     public function stop()
     {
         return $this->hasOne('App\Stop');

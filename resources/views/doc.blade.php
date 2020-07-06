@@ -7,7 +7,7 @@
             <h1 class="mb-5 text-tomato">tomato API</h1>
             <h4>소개</h5>
             <p class="lead">
-            주소 http://34.64.171.19/api
+            주소 {{ env('APP_URL') }}/api
             </p>
 
             <div class="card mt-5">
@@ -21,7 +21,7 @@
                         사창리 >>> 터미널 리스트
                         <h5>요청</h5>
                         <div class="alert alert-dark" role="alert">
-                            <strong>http://34.64.171.19/api</strong>/to-terminals
+                            <strong>{{ env('APP_URL') }}/api</strong>/to-terminals
                         </div>
                         <h5>응답</h5>
                         <pre class="bg-dark text-tomato">                  
@@ -51,7 +51,7 @@
                         스케줄 리스트
                         <h5>요청</h5>
                         <div class="alert alert-dark" role="alert">
-                            <strong>http://34.64.171.19/api</strong>/schedules/2
+                            <strong>{{ env('APP_URL') }}/api</strong>/schedules/2
                         </div>
                         <h5>응답</h5>
                         <pre class="bg-dark text-tomato">                  
