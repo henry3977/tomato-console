@@ -76,6 +76,7 @@ Route::get('/schedule', function () {
 });
 
 Route::get('/', function () {
+    
     return redirect('/doc');
     // return view('welcome');
 });

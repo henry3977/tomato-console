@@ -27,11 +27,13 @@
                         <pre class="bg-dark text-tomato">                  
     [
         {
+            "id": 2,
             "name": "동서울"
         },
         {
+            "id": 3,
             "name": "춘천"
-        }    
+        }
     ]
                         </pre>
                     </p>

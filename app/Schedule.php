@@ -8,6 +8,12 @@ use App\Terminal;
 class Schedule extends Model
 {
     protected $guarded = [];
+    protected $appends = ['has_stop'];
+
+    public function stop()
+    {
+        return $this->hasOne('App\Stop');
+    }
 
     public function getFromAttribute($value)
     {
@@ -24,5 +30,12 @@ class Schedule extends Model
     public function getTimeAttribute($value)
     {
         return date('H:i', strtotime($value));
+    }
+
+    public function getHasStopAttribute()
+    {
+        $res = false;
+        if ($this::with('stop')->find($this->id)->stop) $res = true;
+        return $res;
     }
 }
