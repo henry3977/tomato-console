@@ -13,8 +13,11 @@ class TerminalController extends Controller
         $this->terminal = $terminal;
     }
 
-    public function getFromList()
+    public function getToList()
     {
-        return $this->terminal::has('fromSchedules')->get();
+        return $this->terminal::has('toSchedules')
+            ->select('id', 'name')
+            ->where('id', '!=', 1)
+            ->get();
     }
 }

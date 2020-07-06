@@ -12,7 +12,7 @@
 
             <div class="card mt-5">
                 <div class="card-header">
-                    <h3>/from-terminals</h3>
+                    <h3>/to-terminals</h3>
                 </div>
 
                 <div class="card-body">
@@ -21,13 +21,16 @@
                         사창리 >>> 터미널 리스트
                         <h5>요청</h5>
                         <div class="alert alert-dark" role="alert">
-                            <strong>http://34.64.171.19/api</strong>/from-terminals
+                            <strong>http://34.64.171.19/api</strong>/to-terminals
                         </div>
                         <h5>응답</h5>
                         <pre class="bg-dark text-tomato">                  
     [
         {
-            "name": "사창리"
+            "name": "동서울"
+        },
+        {
+            "name": "춘천"
         }    
     ]
                         </pre>
@@ -37,7 +40,7 @@
 
             <div class="card mt-5">
                 <div class="card-header">
-                    <h3>/from-schedules/{to}</h3>
+                    <h3>/schedules/{to}</h3>
                 </div>
 
                 <div class="card-body">
@@ -46,23 +49,26 @@
                         스케줄 리스트
                         <h5>요청</h5>
                         <div class="alert alert-dark" role="alert">
-                            <strong>http://34.64.171.19/api</strong>/from-schedules/1
+                            <strong>http://34.64.171.19/api</strong>/schedules/2
                         </div>
                         <h5>응답</h5>
                         <pre class="bg-dark text-tomato">                  
     [
         {
             "id": 1,
+            "from": "사창리",
             "to": "동서울",
             "time": "06:30",
         },
         {
             "id": 2,
+            "from": "사창리",
             "to": "동서울",
             "time": "07:00",
         },
         {
             "id": 3,
+            "from": "사창리",
             "to": "동서울",
             "time": "07:20",
         } 

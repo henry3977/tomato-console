@@ -12,4 +12,9 @@ class Terminal extends Model
     {
         return $this->hasMany('App\Schedule', 'from');
     }
+
+    public function toSchedules()
+    {
+        return $this->hasMany('App\Schedule', 'to');
+    }
 }

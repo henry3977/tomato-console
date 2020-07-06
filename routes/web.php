@@ -51,36 +51,26 @@ Route::get('/terminal', function () {
 });
 
 Route::get('/schedule', function () {
-    // $schedule = new Schedule;
+    $schedule = new Schedule;
     // $schedule->create([
-    //     'to' => 2,
     //     'from' => 1,
-    //     'time' => '06:30',
+    //     'to' => 3,
+    //     'time' => '07:30',
     // ]);
     // $schedule->create([
-    //     'to' => 2,
     //     'from' => 1,
-    //     'time' => '07:00',
+    //     'to' => 3,
+    //     'time' => '08:30',
     // ]);
     // $schedule->create([
-    //     'to' => 2,
     //     'from' => 1,
-    //     'time' => '07:20',
+    //     'to' => 3,
+    //     'time' => '08:50',
     // ]);
     // $schedule->create([
-    //     'to' => 2,
     //     'from' => 1,
-    //     'time' => '07:40',
-    // ]);
-    // $schedule->create([
-    //     'to' => 2,
-    //     'from' => 1,
-    //     'time' => '07:55',
-    // ]);
-    // $schedule->create([
-    //     'to' => 2,
-    //     'from' => 1,
-    //     'time' => '08:10',
+    //     'to' => 3,
+    //     'time' => '09:20',
     // ]);
 
 });

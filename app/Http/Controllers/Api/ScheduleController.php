@@ -15,6 +15,12 @@ class ScheduleController extends Controller
 
     public function getList($to)
     {
-        return $this->schedule::where('to', $to)->get();
+        return $this->schedule::select('id', 'from', 'to', 'time')
+            ->where([
+                ['from', 1],
+                ['to', $to]
+            ])
+            ->orderBy('time', 'ASC')
+            ->get();
     }
 }

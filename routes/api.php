@@ -19,6 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::namespace('Api')->group(function () {
-    Route::get('/from-terminals', 'TerminalController@getFromList');
-    Route::get('/from-schedules/{to}', 'ScheduleController@getList');
+    Route::get('/to-terminals', 'TerminalController@getToList');
+    Route::get('/schedules/{to}', 'ScheduleController@getList');
 });
