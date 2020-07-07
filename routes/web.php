@@ -77,6 +77,13 @@ Route::get('/schedule', function () {
 
 Route::view('/doc','doc');
 Route::get('/','DashBoardController@view');
+Route::get('/to-schedules/{id}','DashBoardController@getToSchedules');
+Route::post('/set-use-terminal','DashBoardController@setUseTerminal');
+Route::post('/set-use-schedule','DashBoardController@setUseSchedule');
+
+Route::post('/add-terminal','DashBoardController@addTerminal');
+Route::delete('/terminal/{id}','DashBoardController@delTerminal');
+
 
 Auth::routes();
 

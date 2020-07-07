@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Scopes\UseScope;
+use Illuminate\Database\Eloquent\Builder;
 use App\Terminal;
 
 class Schedule extends Model
@@ -13,9 +13,11 @@ class Schedule extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope(new UseScope);
+        static::addGlobalScope('time', function (Builder $builder) {
+            $builder->orderBy('time', 'ASC');
+        });
     }
-    
+
     public function stop()
     {
         return $this->hasOne('App\Stop');
@@ -23,9 +25,7 @@ class Schedule extends Model
 
     public function scopeFromTomato($query)
     {
-        return $query->select('id', 'from', 'to', 'time')
-            ->where('from', 1)
-            ->orderBy('time', 'ASC');
+        return $query->where('from', 1);
     }
 
     public function getFromAttribute($value)

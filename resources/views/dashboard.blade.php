@@ -2,11 +2,9 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row">
   
-        <terminals :terminals="{{ $terminals }}"></terminals>   
-        <schedules :schedules="{data:1}"></schedules>   
+    <terminals 
+        :terms="{{ $terminals }}"></terminals>   
        
-    </div>
 </div>
 @endsection

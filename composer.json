@@ -26,7 +26,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "7.2.24"
+        }
     },
     "extra": {
         "laravel": {
@@ -60,10 +63,5 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    },
-    "config": {
-        "platform": {
-            "php": "7.2.24"
-        }
     }
 }

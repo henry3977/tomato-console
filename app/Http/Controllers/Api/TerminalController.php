@@ -21,10 +21,12 @@ class TerminalController extends Controller
 
     public function getToSchedules($to)
     {
-        $terminal = $this->terminal::find($to);
-        if ($terminal === null) return response()->json(['message'=> 'Not found id' ], 403);
-        return $terminal->toSchedules()
-            ->fromTomato()
-            ->get();
+        return $this->terminal->getToSchedules($to);
+
+        // $terminal = $this->terminal::find($to);
+        // if ($terminal === null) return response()->json(['message'=> 'Not found id' ], 403);
+        // return $terminal->toSchedules()
+        //     ->fromTomato()
+        //     ->get();
     }
 }

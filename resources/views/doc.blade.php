@@ -9,6 +9,16 @@
             <p class="lead">
             주소 {{ env('APP_URL') }}/api
             </p>
+            <h4>에러</h5>
+            <p class="lead">
+                status : 422
+                <pre class="bg-dark text-tomato">                  
+    {   
+        "message": "Error message"
+    }
+                </pre>
+            </p>
+
 
             <div class="card mt-5">
                 <div class="card-header">
@@ -61,19 +71,43 @@
             "from": "사창리",
             "to": "동서울",
             "time": "06:30",
+            "has_stop": true
         },
         {
             "id": 2,
             "from": "사창리",
             "to": "동서울",
             "time": "07:00",
+            "has_stop": false
         },
         {
             "id": 3,
             "from": "사창리",
             "to": "동서울",
             "time": "07:20",
-        } 
+            "has_stop": false
+        },
+        {
+            "id": 4,
+            "from": "사창리",
+            "to": "동서울",
+            "time": "07:40",
+            "has_stop": false
+        },
+        {
+            "id": 5,
+            "from": "사창리",
+            "to": "동서울",
+            "time": "07:55",
+            "has_stop": false
+        },
+        {
+            "id": 6,
+            "from": "사창리",
+            "to": "동서울",
+            "time": "08:10",
+            "has_stop": false
+        }
     ]
                         </pre>
                     </p>

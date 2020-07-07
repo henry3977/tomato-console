@@ -9,9 +9,9 @@ class Terminal extends Model
 {
     protected $guarded = [];
 
-    protected static function booted()
+    public function scopeExceptTomato($query)
     {
-        static::addGlobalScope(new UseScope);
+        return $query->where('id', '!=', 1);
     }
 
     public function fromSchedules()
@@ -28,7 +28,17 @@ class Terminal extends Model
     {
         return $this::has('toSchedules')
             ->select('id', 'name')
-            ->where('id', '!=', 1)
+            ->exceptTomato()
+            ->get();
+    }
+
+    public function getToSchedules($to)
+    {
+        $terminal = $this::find($to);
+        if ($terminal === null) return response()->json(['message'=> 'Not found id' ], 403);
+        return $terminal->toSchedules()
+            ->select('id', 'from', 'to', 'time')
+            ->fromTomato()
             ->get();
     }
 }

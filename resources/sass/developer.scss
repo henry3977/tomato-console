@@ -1,3 +1,59 @@
+.pointer {
+    cursor: pointer;
+}
+
 .text-tomato {
     color: tomato;
+}
+
+.tomato {
+    background-color: tomato;
+}
+
+.card {
+    border-radius: 1.25rem;
+}
+
+.card-header:first-child {
+    border-radius: calc(1.25rem - 1px) calc(1.25rem - 1px) 0 0;
+}
+
+.card > .list-group:last-child {
+    border-bottom-right-radius: calc(1.25rem - 1px);
+    border-bottom-left-radius: calc(1.25rem - 1px);
+}
+
+.btn {
+    border-radius: 1.25rem;
+}
+
+.form-control {
+    border-radius: 1.25rem;
+}
+
+.sel {
+    background-color: #e9e9e9;
+    animation-name: sel;
+    animation-duration: 0.5s;
+}
+
+.axios {
+    background-color: #fff;
+    animation-name: axios;
+    animation-duration: 0.7s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.none-border {
+    border: none;
+}
+@keyframes sel {
+    from {background-color: #fff;}
+    to {background-color: #e9e9e9;}
+}
+
+@keyframes axios {
+    from {background-color: #e9e9e9;}
+    to {background-color: #fff;}
 }

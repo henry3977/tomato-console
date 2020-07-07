@@ -1963,11 +1963,81 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['schedules'],
-  mounted: function mounted() {},
+  props: ['terminal'],
+  created: function created() {
+    this.getSchedules();
+  },
   data: function data() {
-    return {};
+    return {
+      schedules: false
+    };
+  },
+  watch: {
+    'terminal.id': function terminalId() {
+      this.getSchedules();
+    }
+  },
+  methods: {
+    getSchedules: function getSchedules() {
+      var _this = this;
+
+      this.schedules = false;
+      axios.get("/to-schedules/".concat(this.terminal.id)).then(function (response) {
+        _this.schedules = response.data;
+      });
+    },
+    setUse: function setUse(index, use) {
+      var _this2 = this;
+
+      axios.post('/set-use-schedule', {
+        id: this.schedules[index].id,
+        use: use
+      }).then(function (response) {
+        _this2.schedules[index].use = use;
+      });
+    },
+    useYn: function useYn(use) {
+      return use === 1 ? '사용' : '중지';
+    }
   }
 });
 
@@ -1982,6 +2052,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Schedules_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Schedules.vue */ "./resources/js/components/Schedules.vue");
 //
 //
 //
@@ -2019,11 +2090,89 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['terminals'],
-  mounted: function mounted() {},
+  components: {
+    Schedules: _Schedules_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: ['terms'],
+  created: function created() {
+    this.terminals = this.terms;
+  },
   data: function data() {
-    return {};
+    return {
+      terminals: [],
+      sel: {
+        id: 0,
+        name: "",
+        use: 0
+      },
+      form: {
+        name: ''
+      }
+    };
+  },
+  methods: {
+    setSel: function setSel(index) {
+      this.sel = this.terminals[index];
+    },
+    setUse: function setUse(index, use) {
+      var _this = this;
+
+      axios.post('/set-use-terminal', {
+        id: this.terminals[index].id,
+        use: use
+      }).then(function (response) {
+        _this.terminals[index].use = use;
+      });
+    },
+    addTerminal: function addTerminal() {
+      var _this2 = this;
+
+      axios.post('/add-terminal', this.form).then(function (response) {
+        _this2.form.name = '';
+
+        _this2.terminals.push(response.data);
+      })["catch"](function (error) {
+        if (error.response.status === 422) alert(error.response.data.errors.name[0]);
+      });
+    },
+    delTerminal: function delTerminal(index) {
+      var _this3 = this;
+
+      if (!confirm('해당 작업은 복구할 수 없습니다! 정말 삭제 하시겠습니까?')) return false;
+      axios["delete"]("/terminal/".concat(this.terminals[index].id)).then(function (response) {
+        _this3.terminals.splice(index, 1);
+      });
+    },
+    useYn: function useYn(use) {
+      return use === 1 ? '사용' : '중지';
+    }
   }
 });
 
@@ -37619,40 +37768,180 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "col-md-2" }, [
+    _c(
+      "div",
+      {
+        staticClass:
+          "card \n        text-center \n        shadow \n        none-border"
+      },
+      [
+        _c("div", { staticClass: "card-header" }, [
+          _c("span", [_vm._v("사창리")]),
+          _vm._v(" "),
+          _c(
+            "svg",
+            {
+              staticClass: "bi bi-arrow-right text-tomato",
+              attrs: {
+                width: "2.5em",
+                height: "2.5em",
+                viewBox: "0 0 16 16",
+                fill: "currentColor",
+                xmlns: "http://www.w3.org/2000/svg"
+              }
+            },
+            [
+              _c("path", {
+                attrs: {
+                  "fill-rule": "evenodd",
+                  d:
+                    "M10.146 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L12.793 8l-2.647-2.646a.5.5 0 0 1 0-.708z"
+                }
+              }),
+              _vm._v(" "),
+              _c("path", {
+                attrs: {
+                  "fill-rule": "evenodd",
+                  d:
+                    "M2 8a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8z"
+                }
+              })
+            ]
+          ),
+          _vm._v(" "),
+          _c("span", [_vm._v(_vm._s(_vm.terminal.name))])
+        ]),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "list-group list-group-flush" },
+          [
+            !_vm.schedules
+              ? _c("li", { staticClass: "list-group-item axios p-4" })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.schedules, function(schedule, index) {
+              return _c(
+                "li",
+                {
+                  key: schedule.id,
+                  staticClass:
+                    "list-group-item d-flex justify-content-between align-items-center"
+                },
+                [
+                  _c("div", { staticClass: "dropdown" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn dropdown-toggle btn-sm",
+                        class: {
+                          "btn-primary": schedule.use,
+                          "btn-secondary": !schedule.use
+                        },
+                        attrs: {
+                          type: "button",
+                          id: "dropdownMenuButton",
+                          "data-toggle": "dropdown",
+                          "aria-haspopup": "true",
+                          "aria-expanded": "false"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.useYn(schedule.use)) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "dropdown-menu",
+                        attrs: { "aria-labelledby": "dropdownMenuButton" }
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            on: {
+                              click: function($event) {
+                                return _vm.setUse(index, 1)
+                              }
+                            }
+                          },
+                          [_vm._v("사용")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            on: {
+                              click: function($event) {
+                                return _vm.setUse(index, 0)
+                              }
+                            }
+                          },
+                          [_vm._v("중지")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "dropdown-divider" }),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "#" }
+                          },
+                          [_vm._v("삭제")]
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(schedule.time) +
+                      "\n            "
+                  )
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _vm.schedules
+              ? _c("li", { staticClass: "list-group-item" }, [_vm._m(0)])
+              : _vm._e()
+          ],
+          2
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2" }, [
-      _c("div", { staticClass: "card text-center" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _vm._v("\n            사창리 >>> 동서울\n        ")
-        ]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "list-group list-group-flush " }, [
-          _c("li", { staticClass: "list-group-item" }, [_vm._v("00:00")])
-        ])
-      ]),
+    return _c("div", { staticClass: "input-group" }, [
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "text", placeholder: "00:00" }
+      }),
       _vm._v(" "),
-      _c("div", { staticClass: "input-group mt-2" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", placeholder: "형식 00:00" }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "input-group-append" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-outline-secondary",
-              attrs: { type: "button" }
-            },
-            [_vm._v("저장")]
-          )
-        ])
+      _c("div", { staticClass: "input-group-append" }, [
+        _c(
+          "button",
+          {
+            staticClass:
+              "btn \n                            btn-outline-secondary",
+            attrs: { type: "button" }
+          },
+          [_vm._v("출발시간 추가")]
+        )
       ])
     ])
   }
@@ -37678,105 +37967,190 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-2" }, [
-    _c("div", { staticClass: "card text-center" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v("\n            터미널\n        ")
+  return _c(
+    "div",
+    { staticClass: "row" },
+    [
+      _c("div", { staticClass: "col-md-2" }, [
+        _c("div", { staticClass: "card text-center shadow none-border" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c(
+              "svg",
+              {
+                staticClass: "bi bi-geo-alt text-tomato",
+                attrs: {
+                  width: "2.5em",
+                  height: "2.5em",
+                  viewBox: "0 0 16 16",
+                  fill: "currentColor",
+                  xmlns: "http://www.w3.org/2000/svg"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    "fill-rule": "evenodd",
+                    d:
+                      "M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+                  }
+                })
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "ul",
+            { staticClass: "list-group list-group-flush" },
+            [
+              _vm._l(_vm.terminals, function(terminal, index) {
+                return _c(
+                  "li",
+                  {
+                    key: terminal.id,
+                    staticClass:
+                      "list-group-item d-flex justify-content-between align-items-center pointer",
+                    class: {
+                      sel: _vm.sel.id === terminal.id
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.setSel(index)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "dropdown" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary dropdown-toggle btn-sm",
+                          class: {
+                            "btn-primary": terminal.use,
+                            "btn-secondary": !terminal.use
+                          },
+                          attrs: {
+                            type: "button",
+                            id: "dropdownMenuButton",
+                            "data-toggle": "dropdown",
+                            "aria-haspopup": "true",
+                            "aria-expanded": "false"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.useYn(terminal.use)) +
+                              "\n                        "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "dropdown-menu",
+                          attrs: { "aria-labelledby": "dropdownMenuButton" }
+                        },
+                        [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "dropdown-item",
+                              on: {
+                                click: function($event) {
+                                  return _vm.setUse(index, 1)
+                                }
+                              }
+                            },
+                            [_vm._v("사용")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "dropdown-item",
+                              on: {
+                                click: function($event) {
+                                  return _vm.setUse(index, 0)
+                                }
+                              }
+                            },
+                            [_vm._v("중지")]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "dropdown-divider" }),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "dropdown-item",
+                              on: {
+                                click: function($event) {
+                                  return _vm.delTerminal(index)
+                                }
+                              }
+                            },
+                            [_vm._v("삭제")]
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(_vm._s(terminal.name))])
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _c("li", { staticClass: "list-group-item" }, [
+                _c("div", { staticClass: "input-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.name,
+                        expression: "form.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "터미널 이름" },
+                    domProps: { value: _vm.form.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "name", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group-append" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "btn \n                                btn-outline-secondary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.addTerminal }
+                      },
+                      [_vm._v("출발시간 추가")]
+                    )
+                  ])
+                ])
+              ])
+            ],
+            2
+          )
+        ])
       ]),
       _vm._v(" "),
-      _c(
-        "ul",
-        { staticClass: "list-group list-group-flush " },
-        _vm._l(_vm.terminals, function(terminal) {
-          return _c(
-            "li",
-            {
-              key: terminal.id,
-              staticClass:
-                "list-group-item d-flex justify-content-between align-items-center"
-            },
-            [
-              _vm._m(0, true),
-              _vm._v(" "),
-              _c("span", [_vm._v(_vm._s(terminal.name))])
-            ]
-          )
-        }),
-        0
-      )
-    ]),
-    _vm._v(" "),
-    _vm._m(1)
-  ])
+      _vm.sel.id ? _c("schedules", { attrs: { terminal: _vm.sel } }) : _vm._e()
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary dropdown-toggle btn-sm",
-          attrs: {
-            type: "button",
-            id: "dropdownMenuButton",
-            "data-toggle": "dropdown",
-            "aria-haspopup": "true",
-            "aria-expanded": "false"
-          }
-        },
-        [_vm._v("\n                        사용\n                    ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "dropdown-menu",
-          attrs: { "aria-labelledby": "dropdownMenuButton" }
-        },
-        [
-          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-            _vm._v("사용")
-          ]),
-          _vm._v(" "),
-          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-            _vm._v("중지")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "dropdown-divider" }),
-          _vm._v(" "),
-          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-            _vm._v("삭제")
-          ])
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group mt-2" }, [
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", placeholder: "터미널 이름" }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "input-group-append" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-outline-secondary",
-            attrs: { type: "button" }
-          },
-          [_vm._v("저장")]
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -49972,7 +50346,6 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('terminals', __webpack_require__(/*! ./components/Terminals.vue */ "./resources/js/components/Terminals.vue")["default"]);
-Vue.component('schedules', __webpack_require__(/*! ./components/Schedules.vue */ "./resources/js/components/Schedules.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
