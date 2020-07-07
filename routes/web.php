@@ -75,13 +75,8 @@ Route::get('/schedule', function () {
 
 });
 
-Route::get('/', function () {
-    
-    return redirect('/doc');
-    // return view('welcome');
-});
-
 Route::view('/doc','doc');
+Route::get('/','DashBoardController@view');
 
 Auth::routes();
 

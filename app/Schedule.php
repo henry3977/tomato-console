@@ -21,6 +21,13 @@ class Schedule extends Model
         return $this->hasOne('App\Stop');
     }
 
+    public function scopeFromTomato($query)
+    {
+        return $query->select('id', 'from', 'to', 'time')
+            ->where('from', 1)
+            ->orderBy('time', 'ASC');
+    }
+
     public function getFromAttribute($value)
     {
         $terminal = new Terminal;

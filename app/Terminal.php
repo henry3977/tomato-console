@@ -23,4 +23,12 @@ class Terminal extends Model
     {
         return $this->hasMany('App\Schedule', 'to');
     }
+
+    public function getToList()
+    {
+        return $this::has('toSchedules')
+            ->select('id', 'name')
+            ->where('id', '!=', 1)
+            ->get();
+    }
 }
