@@ -37768,7 +37768,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-2" }, [
+  return _c("div", { staticClass: "col-sm-6 col-md-6 col-lg-4 col-xl-2" }, [
     _c(
       "div",
       {
@@ -37971,7 +37971,7 @@ var render = function() {
     "div",
     { staticClass: "row" },
     [
-      _c("div", { staticClass: "col-md-2" }, [
+      _c("div", { staticClass: "col-sm-6 col-md-6 col-lg-4 col-xl-2" }, [
         _c("div", { staticClass: "card text-center shadow none-border" }, [
           _c("div", { staticClass: "card-header" }, [
             _c(

@@ -33,7 +33,7 @@
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
-  --breakpoint-xl: 1200px;
+  --breakpoint-xl: 1700px;
   --font-family-sans-serif: "Nunito", sans-serif;
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
@@ -574,8 +574,8 @@ pre code {
 
 .container {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 10px;
+  padding-left: 10px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -598,7 +598,7 @@ pre code {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .container {
     max-width: 1140px;
   }
@@ -610,8 +610,8 @@ pre code {
 .container-md,
 .container-sm {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 10px;
+  padding-left: 10px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -640,7 +640,7 @@ pre code {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .container-xl,
   .container-lg,
   .container-md,
@@ -653,8 +653,8 @@ pre code {
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
+  margin-right: -10px;
+  margin-left: -10px;
 }
 
 .no-gutters {
@@ -740,8 +740,8 @@ pre code {
 .col-1 {
   position: relative;
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .col {
@@ -1590,7 +1590,7 @@ pre code {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .col-xl {
     flex-basis: 0;
     flex-grow: 1;
@@ -2126,7 +2126,7 @@ pre code {
   }
 }
 
-@media (max-width: 1199.98px) {
+@media (max-width: 1699.98px) {
   .table-responsive-xl {
     display: block;
     width: 100%;
@@ -3496,7 +3496,7 @@ input[type=button].btn-block {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .dropdown-menu-xl-left {
     right: auto;
     left: 0;
@@ -4768,7 +4768,7 @@ input[type=button].btn-block {
   }
 }
 
-@media (max-width: 1199.98px) {
+@media (max-width: 1699.98px) {
   .navbar-expand-xl > .container,
   .navbar-expand-xl > .container-fluid,
   .navbar-expand-xl > .container-sm,
@@ -4780,7 +4780,7 @@ input[type=button].btn-block {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .navbar-expand-xl {
     flex-flow: row nowrap;
     justify-content: flex-start;
@@ -5093,27 +5093,27 @@ input[type=button].btn-block {
 }
 
 .card-deck .card {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 @media (min-width: 576px) {
   .card-deck {
     display: flex;
     flex-flow: row wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+    margin-right: -10px;
+    margin-left: -10px;
   }
 
   .card-deck .card {
     flex: 1 0 0%;
-    margin-right: 15px;
+    margin-right: 10px;
     margin-bottom: 0;
-    margin-left: 15px;
+    margin-left: 10px;
   }
 }
 
 .card-group > .card {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 @media (min-width: 576px) {
@@ -5924,7 +5924,7 @@ a.badge-dark.focus {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .list-group-horizontal-xl {
     flex-direction: row;
   }
@@ -6389,7 +6389,7 @@ a.close.disabled {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .modal-xl {
     max-width: 1140px;
   }
@@ -7352,7 +7352,7 @@ button.bg-dark:focus {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .d-xl-none {
     display: none !important;
   }
@@ -8021,7 +8021,7 @@ button.bg-dark:focus {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .flex-xl-row {
     flex-direction: row !important;
   }
@@ -8213,7 +8213,7 @@ button.bg-dark:focus {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .float-xl-left {
     float: left !important;
   }
@@ -10138,7 +10138,7 @@ button.bg-dark:focus {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .m-xl-0 {
     margin: 0 !important;
   }
@@ -10660,7 +10660,7 @@ button.bg-dark:focus {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1700px) {
   .text-xl-left {
     text-align: left !important;
   }
