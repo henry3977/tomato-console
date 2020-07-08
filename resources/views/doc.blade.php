@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h1 class="mb-5 text-tomato">tomato API</h1>
+            <h1 class="mb-5 text-primary">tomato API</h1>
             <h4>소개</h5>
             <p class="lead">
             주소 {{ env('APP_URL') }}/api
@@ -12,13 +12,12 @@
             <h4>에러</h5>
             <p class="lead">
                 status : 422
-                <pre class="bg-dark text-tomato">                  
+                <pre class="bg-dark text-primary">                  
     {   
         "message": "Error message"
     }
                 </pre>
             </p>
-
 
             <div class="card mt-5">
                 <div class="card-header">
@@ -34,7 +33,7 @@
                             <strong>{{ env('APP_URL') }}/api</strong>/to-terminals
                         </div>
                         <h5>응답</h5>
-                        <pre class="bg-dark text-tomato">                  
+                        <pre class="bg-dark text-primary">                  
     [
         {
             "id": 2,
@@ -64,7 +63,7 @@
                             <strong>{{ env('APP_URL') }}/api</strong>/schedules/2
                         </div>
                         <h5>응답</h5>
-                        <pre class="bg-dark text-tomato">                  
+                        <pre class="bg-dark text-primary">                  
     [
         {
             "id": 1,

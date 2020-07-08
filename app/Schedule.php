@@ -28,6 +28,11 @@ class Schedule extends Model
         return $query->where('from', 1);
     }
 
+    public function scopeToTomato($query)
+    {
+        return $query->where('to', 1);
+    }
+
     public function getFromAttribute($value)
     {
         $terminal = new Terminal;

@@ -1,14 +1,10 @@
-.pointer {
-    cursor: pointer;
-}
+// .pointer {
+//     cursor: pointer;
+// }
 
-.text-tomato {
-    color: tomato;
-}
-
-.tomato {
-    background-color: tomato;
-}
+// .tomato {
+//     background-color: tomato;
+// }
 
 .card {
     border-radius: 1.25rem;
@@ -31,11 +27,11 @@
     border-radius: 1.25rem;
 }
 
-.sel {
-    background-color: #e9e9e9;
-    animation-name: sel;
-    animation-duration: 0.5s;
-}
+// .sel {
+//     background-color: #e9e9e9;
+//     animation-name: sel;
+//     animation-duration: 0.5s;
+// }
 
 .axios {
     background-color: #fff;
@@ -48,11 +44,45 @@
 .none-border {
     border: none;
 }
-@keyframes sel {
-    from {background-color: #fff;}
-    to {background-color: #e9e9e9;}
+
+button.view {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
 }
 
+// .my-tooltip .tooltiptext {
+//     visibility: hidden;
+//     width: 120px;
+//     color: #fff;
+//     background-color:tomato;
+//     text-align: center;
+//     border-radius: 1.25rem;
+//     padding: 3px 0;
+
+//     /* Position the tooltip */
+//     position: absolute;
+//     z-index: 1;
+//     top: -10px;
+//     // left: 45px;
+// }
+
+// .my-tooltip:hover .tooltiptext {
+//     visibility: visible;
+// }
+
+// @keyframes sel {
+//     from {background-color: #fff;}
+//     to {background-color: #e9e9e9;}
+// }
+.input-group > .form-control:not(:last-child), .input-group > .custom-select:not(:last-child) {
+    border-top-right-radius: 1.25rem;
+    border-bottom-right-radius: 1.25rem;
+}
+.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+    border-top-left-radius: 1.25rem;
+    border-bottom-left-radius: 1.25rem;
+}
 @keyframes axios {
     from {background-color: #e9e9e9;}
     to {background-color: #fff;}

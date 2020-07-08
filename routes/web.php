@@ -18,71 +18,21 @@ Route::get('/terminal', function () {
     // $terminal->create([
     //     'name' => '사창리'
     // ]);
-    // $terminal->create([
-    //     'name' => '동서울'
-    // ]);
-    // $terminal->create([
-    //     'name' => '춘천'
-    // ]);
-    // $terminal->create([
-    //     'name' => '다목리'
-    // ]);
-    // $terminal->create([
-    //     'name' => '동송'
-    // ]);
-    // $terminal->create([
-    //     'name' => '화천'
-    // ]);
-    // $terminal->create([
-    //     'name' => '박달리'
-    // ]);
-    // $terminal->create([
-    //     'name' => '삼일리'
-    // ]);
-    // $terminal->create([
-    //     'name' => '수밀리'
-    // ]);
-    // $terminal->create([
-    //     'name' => '검단리'
-    // ]);
-    // $terminal->create([
-    //     'name' => '용담리'
-    // ]);
-});
-
-Route::get('/schedule', function () {
-    $schedule = new Schedule;
-    // $schedule->create([
-    //     'from' => 1,
-    //     'to' => 3,
-    //     'time' => '07:30',
-    // ]);
-    // $schedule->create([
-    //     'from' => 1,
-    //     'to' => 3,
-    //     'time' => '08:30',
-    // ]);
-    // $schedule->create([
-    //     'from' => 1,
-    //     'to' => 3,
-    //     'time' => '08:50',
-    // ]);
-    // $schedule->create([
-    //     'from' => 1,
-    //     'to' => 3,
-    //     'time' => '09:20',
-    // ]);
-
 });
 
 Route::view('/doc','doc');
 Route::get('/','DashBoardController@view');
 Route::get('/to-schedules/{id}','DashBoardController@getToSchedules');
+Route::get('/from-schedules/{id}','DashBoardController@getFromSchedules');
 Route::post('/set-use-terminal','DashBoardController@setUseTerminal');
 Route::post('/set-use-schedule','DashBoardController@setUseSchedule');
 
 Route::post('/add-terminal','DashBoardController@addTerminal');
+Route::post('/add-to-schedule','DashBoardController@addToSchedule');
+Route::post('/add-from-schedule','DashBoardController@addFromSchedule');
+
 Route::delete('/terminal/{id}','DashBoardController@delTerminal');
+Route::delete('/schedule/{id}','DashBoardController@delSchedule');
 
 
 Auth::routes();

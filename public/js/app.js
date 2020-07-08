@@ -2001,6 +2001,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['terminal'],
   created: function created() {
@@ -2008,11 +2039,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      schedules: false
+      arrow: 'to',
+      schedules: false,
+      form: {
+        time: ''
+      }
     };
   },
   watch: {
     'terminal.id': function terminalId() {
+      this.arrow = 'to';
       this.getSchedules();
     }
   },
@@ -2021,22 +2057,64 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.schedules = false;
-      axios.get("/to-schedules/".concat(this.terminal.id)).then(function (response) {
+      axios.get("/".concat(this.arrow, "-schedules/").concat(this.terminal.id)).then(function (response) {
         _this.schedules = response.data;
       });
     },
-    setUse: function setUse(index, use) {
+    addSchedule: function addSchedule() {
       var _this2 = this;
 
+      axios.post("/add-".concat(this.arrow, "-schedule"), {
+        term_id: this.terminal.id,
+        time: this.form.time
+      }).then(function (response) {
+        _this2.schedules.push(response.data);
+
+        _this2.form.time = '';
+      })["catch"](function (error) {
+        console.log(error.response);
+        if (error.response.status === 422) alert(error.response.data.errors.time[0]);
+      });
+    },
+    delSchedule: function delSchedule(index) {
+      var _this3 = this;
+
+      var input = prompt('잘못 누른거 아니지? "시간"을 다시 입력해봐. 그리고 다시는 복구할수 없는거 알지?');
+      var time = this.schedules[index].time;
+
+      if (input !== null && input !== time) {
+        alert('잘못 입력했는걸...');
+        return false;
+      }
+
+      if (input === null) return false;
+      axios["delete"]("/schedule/".concat(this.schedules[index].id)).then(function (response) {
+        _this3.schedules.splice(index, 1);
+
+        alert("".concat(time, "\uC0AD\uC81C \uC644\uB8CC!"));
+      });
+    },
+    setUse: function setUse(index) {
+      var _this4 = this;
+
+      var use = this.schedules[index].use ? 0 : 1;
+      this.schedules[index].use;
       axios.post('/set-use-schedule', {
         id: this.schedules[index].id,
         use: use
       }).then(function (response) {
-        _this2.schedules[index].use = use;
+        _this4.schedules[index].use = use;
       });
+    },
+    toggleArrow: function toggleArrow() {
+      this.arrow = this.arrow === 'to' ? 'from' : 'to';
+      this.getSchedules();
     },
     useYn: function useYn(use) {
       return use === 1 ? '사용' : '중지';
+    },
+    close: function close() {
+      this.$emit('close');
     }
   }
 });
@@ -2053,6 +2131,27 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Schedules_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Schedules.vue */ "./resources/js/components/Schedules.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2139,11 +2238,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setSel: function setSel(index) {
-      this.sel = this.terminals[index];
+      if (this.sel.id === this.terminals[index].id) {
+        this.unSetSel();
+      } else {
+        this.sel = this.terminals[index];
+      }
     },
-    setUse: function setUse(index, use) {
+    unSetSel: function unSetSel() {
+      this.sel = {
+        id: 0,
+        name: "",
+        use: 0
+      };
+    },
+    setUse: function setUse(index) {
       var _this = this;
 
+      var use = this.terminals[index].use ? 0 : 1;
+      this.terminals[index].use;
       axios.post('/set-use-terminal', {
         id: this.terminals[index].id,
         use: use
@@ -2165,9 +2277,19 @@ __webpack_require__.r(__webpack_exports__);
     delTerminal: function delTerminal(index) {
       var _this3 = this;
 
-      if (!confirm('해당 작업은 복구할 수 없습니다! 정말 삭제 하시겠습니까?')) return false;
+      var input = prompt('잘못 누른거 아니지? 정말 삭제하고 싶다면 터미널"이름"을 입려해. 해당 터미널에 등록된 시간표까지 전부 삭제되니까 조심하고, 다시 복구할수 없는거 알지?');
+      var name = this.terminals[index].name;
+
+      if (input !== null && input !== name) {
+        alert('잘못 입력했는걸...');
+        return false;
+      }
+
+      if (input === null) return false;
       axios["delete"]("/terminal/".concat(this.terminals[index].id)).then(function (response) {
         _this3.terminals.splice(index, 1);
+
+        alert("".concat(name, "\uC0AD\uC81C \uC644\uB8CC!"));
       });
     },
     useYn: function useYn(use) {
@@ -37769,23 +37891,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-sm-6 col-md-6 col-lg-4 col-xl-2" }, [
-    _c(
-      "div",
-      {
-        staticClass:
-          "card \n        text-center \n        shadow \n        none-border"
-      },
-      [
-        _c("div", { staticClass: "card-header" }, [
-          _c("span", [_vm._v("사창리")]),
-          _vm._v(" "),
+    _c("div", { staticClass: "card\n        shadow \n        none-border" }, [
+      _c(
+        "div",
+        {
+          staticClass: "p-3 d-flex justify-content-between align-items-center"
+        },
+        [
           _c(
             "svg",
             {
-              staticClass: "bi bi-arrow-right text-tomato",
+              staticClass: "bi bi-clock-fill text-primary",
               attrs: {
-                width: "2.5em",
-                height: "2.5em",
+                width: "1.5em",
+                height: "1.5em",
                 viewBox: "0 0 16 16",
                 fill: "currentColor",
                 xmlns: "http://www.w3.org/2000/svg"
@@ -37796,129 +37915,314 @@ var render = function() {
                 attrs: {
                   "fill-rule": "evenodd",
                   d:
-                    "M10.146 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L12.793 8l-2.647-2.646a.5.5 0 0 1 0-.708z"
-                }
-              }),
-              _vm._v(" "),
-              _c("path", {
-                attrs: {
-                  "fill-rule": "evenodd",
-                  d:
-                    "M2 8a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8z"
+                    "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"
                 }
               })
             ]
           ),
           _vm._v(" "),
-          _c("span", [_vm._v(_vm._s(_vm.terminal.name))])
-        ]),
-        _vm._v(" "),
-        _c(
-          "ul",
-          { staticClass: "list-group list-group-flush" },
-          [
-            !_vm.schedules
-              ? _c("li", { staticClass: "list-group-item axios p-4" })
-              : _vm._e(),
+          _c("div", [
+            _c(
+              "span",
+              {
+                class: {
+                  "text-primary": _vm.arrow === "from",
+                  "font-weight-bold": _vm.arrow === "from"
+                }
+              },
+              [_vm._v("사창리")]
+            ),
             _vm._v(" "),
-            _vm._l(_vm.schedules, function(schedule, index) {
-              return _c(
-                "li",
-                {
-                  key: schedule.id,
-                  staticClass:
-                    "list-group-item d-flex justify-content-between align-items-center"
-                },
-                [
-                  _c("div", { staticClass: "dropdown" }, [
-                    _c(
-                      "button",
+            _c(
+              "button",
+              { staticClass: "view", on: { click: _vm.toggleArrow } },
+              [
+                _vm.arrow === "to"
+                  ? _c(
+                      "svg",
                       {
-                        staticClass: "btn dropdown-toggle btn-sm",
-                        class: {
-                          "btn-primary": schedule.use,
-                          "btn-secondary": !schedule.use
-                        },
+                        staticClass: "bi bi-arrow-right text-primary",
                         attrs: {
-                          type: "button",
-                          id: "dropdownMenuButton",
-                          "data-toggle": "dropdown",
-                          "aria-haspopup": "true",
-                          "aria-expanded": "false"
+                          width: "2.5em",
+                          height: "2.5em",
+                          viewBox: "0 0 16 17",
+                          fill: "currentColor",
+                          xmlns: "http://www.w3.org/2000/svg"
                         }
                       },
                       [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(_vm.useYn(schedule.use)) +
-                            "\n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "dropdown-menu",
-                        attrs: { "aria-labelledby": "dropdownMenuButton" }
-                      },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "dropdown-item",
-                            on: {
-                              click: function($event) {
-                                return _vm.setUse(index, 1)
-                              }
-                            }
-                          },
-                          [_vm._v("사용")]
-                        ),
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M10.146 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L12.793 8l-2.647-2.646a.5.5 0 0 1 0-.708z"
+                          }
+                        }),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "dropdown-item",
-                            on: {
-                              click: function($event) {
-                                return _vm.setUse(index, 0)
-                              }
-                            }
-                          },
-                          [_vm._v("중지")]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "dropdown-divider" }),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { href: "#" }
-                          },
-                          [_vm._v("삭제")]
-                        )
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M2 8a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8z"
+                          }
+                        })
                       ]
                     )
-                  ]),
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(schedule.time) +
-                      "\n            "
-                  )
-                ]
-              )
-            }),
+                  : _vm.arrow === "from"
+                  ? _c(
+                      "svg",
+                      {
+                        staticClass: "bi bi-arrow-left text-primary",
+                        attrs: {
+                          width: "2.5em",
+                          height: "2.5em",
+                          viewBox: "0 0 16 17",
+                          fill: "currentColor",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M5.854 4.646a.5.5 0 0 1 0 .708L3.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M2.5 8a.5.5 0 0 1 .5-.5h10.5a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+                          }
+                        })
+                      ]
+                    )
+                  : _vm._e()
+              ]
+            ),
             _vm._v(" "),
-            _vm.schedules
-              ? _c("li", { staticClass: "list-group-item" }, [_vm._m(0)])
-              : _vm._e()
-          ],
-          2
-        )
-      ]
-    )
+            _c(
+              "span",
+              {
+                class: {
+                  "text-primary": _vm.arrow === "to",
+                  "font-weight-bold": _vm.arrow === "to"
+                }
+              },
+              [_vm._v(_vm._s(_vm.terminal.name))]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "close",
+              attrs: { type: "button", "aria-label": "Close" },
+              on: { click: _vm.close }
+            },
+            [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "list-group list-group-flush" },
+        [
+          !_vm.schedules
+            ? _c("li", { staticClass: "list-group-item axios p-4" })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._l(_vm.schedules, function(schedule, index) {
+            return _c(
+              "li",
+              {
+                key: schedule.id,
+                staticClass:
+                  "list-group-item d-flex justify-content-between align-items-center"
+              },
+              [
+                _vm._v(
+                  "        \n                " +
+                    _vm._s(schedule.time) +
+                    "\n                "
+                ),
+                _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "view text-black-50 ml-2",
+                      on: {
+                        click: function($event) {
+                          return _vm.setUse(index)
+                        }
+                      }
+                    },
+                    [
+                      schedule.use
+                        ? _c(
+                            "svg",
+                            {
+                              staticClass: "bi bi-eye-fill",
+                              attrs: {
+                                width: "1.5em",
+                                height: "1.5em",
+                                viewBox: "0 0 16 16",
+                                fill: "currentColor",
+                                xmlns: "http://www.w3.org/2000/svg"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("path", {
+                                attrs: {
+                                  "fill-rule": "evenodd",
+                                  d:
+                                    "M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                }
+                              })
+                            ]
+                          )
+                        : _c(
+                            "svg",
+                            {
+                              staticClass: "bi bi-eye-slash",
+                              attrs: {
+                                width: "1.5em",
+                                height: "1.5em",
+                                viewBox: "0 0 16 16",
+                                fill: "currentColor",
+                                xmlns: "http://www.w3.org/2000/svg"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299l.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709z"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("path", {
+                                attrs: {
+                                  "fill-rule": "evenodd",
+                                  d:
+                                    "M13.646 14.354l-12-12 .708-.708 12 12-.708.708z"
+                                }
+                              })
+                            ]
+                          )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "view text-black-50 ml-2",
+                      on: {
+                        click: function($event) {
+                          return _vm.delSchedule(index)
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "bi bi-trash-fill",
+                          attrs: {
+                            width: "1.2em",
+                            height: "1.2em",
+                            viewBox: "0 0 16 14",
+                            fill: "currentColor",
+                            xmlns: "http://www.w3.org/2000/svg"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              "fill-rule": "evenodd",
+                              d:
+                                "M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"
+                            }
+                          })
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _vm.schedules
+            ? _c("li", { staticClass: "list-group-item" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.addSchedule($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "input-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.time,
+                            expression: "form.time"
+                          }
+                        ],
+                        staticClass: "form-control mr-2",
+                        attrs: { type: "text", placeholder: "00:00" },
+                        domProps: { value: _vm.form.time },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "time", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(0)
+                    ])
+                  ]
+                )
+              ])
+            : _vm._e()
+        ],
+        2
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -37926,23 +38230,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group" }, [
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", placeholder: "00:00" }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "input-group-append" }, [
-        _c(
-          "button",
-          {
-            staticClass:
-              "btn \n                            btn-outline-secondary",
-            attrs: { type: "button" }
-          },
-          [_vm._v("출발시간 추가")]
-        )
-      ])
+    return _c("div", { staticClass: "input-group-append" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "btn \n                                btn-outline-primary",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("출발시간 추가")]
+      )
     ])
   }
 ]
@@ -37972,12 +38269,12 @@ var render = function() {
     { staticClass: "row" },
     [
       _c("div", { staticClass: "col-sm-6 col-md-6 col-lg-4 col-xl-2" }, [
-        _c("div", { staticClass: "card text-center shadow none-border" }, [
-          _c("div", { staticClass: "card-header" }, [
+        _c("div", { staticClass: "card shadow none-border" }, [
+          _c("div", { staticClass: "card-header text-center" }, [
             _c(
               "svg",
               {
-                staticClass: "bi bi-geo-alt text-tomato",
+                staticClass: "bi bi-geo-alt text-primary",
                 attrs: {
                   width: "2.5em",
                   height: "2.5em",
@@ -38000,7 +38297,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "ul",
-            { staticClass: "list-group list-group-flush" },
+            { staticClass: "list-group list-group-flush " },
             [
               _vm._l(_vm.terminals, function(terminal, index) {
                 return _c(
@@ -38008,136 +38305,245 @@ var render = function() {
                   {
                     key: terminal.id,
                     staticClass:
-                      "list-group-item d-flex justify-content-between align-items-center pointer",
-                    class: {
-                      sel: _vm.sel.id === terminal.id
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.setSel(index)
-                      }
-                    }
+                      "list-group-item d-flex justify-content-between align-items-center"
                   },
                   [
-                    _c("div", { staticClass: "dropdown" }, [
+                    _c("span", [_vm._v(_vm._s(terminal.name))]),
+                    _vm._v(" "),
+                    _c("div", [
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-primary dropdown-toggle btn-sm",
-                          class: {
-                            "btn-primary": terminal.use,
-                            "btn-secondary": !terminal.use
-                          },
-                          attrs: {
-                            type: "button",
-                            id: "dropdownMenuButton",
-                            "data-toggle": "dropdown",
-                            "aria-haspopup": "true",
-                            "aria-expanded": "false"
+                          staticClass: "view",
+                          on: {
+                            click: function($event) {
+                              return _vm.setSel(index)
+                            }
                           }
                         },
                         [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm.useYn(terminal.use)) +
-                              "\n                        "
-                          )
+                          _vm.sel.id === terminal.id
+                            ? _c(
+                                "svg",
+                                {
+                                  staticClass: "bi bi-clock-fill text-primary",
+                                  attrs: {
+                                    width: "1.4em",
+                                    height: "1.4em",
+                                    viewBox: "0 0 16 16",
+                                    fill: "currentColor",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      "fill-rule": "evenodd",
+                                      d:
+                                        "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"
+                                    }
+                                  })
+                                ]
+                              )
+                            : _c(
+                                "svg",
+                                {
+                                  staticClass: "bi bi-clock text-black-50",
+                                  attrs: {
+                                    width: "1.4em",
+                                    height: "1.4em",
+                                    viewBox: "0 0 16 16",
+                                    fill: "currentColor",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      "fill-rule": "evenodd",
+                                      d:
+                                        "M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm8-7A8 8 0 1 1 0 8a8 8 0 0 1 16 0z"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      "fill-rule": "evenodd",
+                                      d:
+                                        "M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"
+                                    }
+                                  })
+                                ]
+                              )
                         ]
                       ),
                       _vm._v(" "),
                       _c(
-                        "div",
+                        "button",
                         {
-                          staticClass: "dropdown-menu",
-                          attrs: { "aria-labelledby": "dropdownMenuButton" }
+                          staticClass: "view text-black-50 ml-2",
+                          on: {
+                            click: function($event) {
+                              return _vm.setUse(index)
+                            }
+                          }
+                        },
+                        [
+                          terminal.use
+                            ? _c(
+                                "svg",
+                                {
+                                  staticClass: "bi bi-eye-fill",
+                                  attrs: {
+                                    width: "1.5em",
+                                    height: "1.5em",
+                                    viewBox: "0 0 16 16",
+                                    fill: "currentColor",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      "fill-rule": "evenodd",
+                                      d:
+                                        "M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                    }
+                                  })
+                                ]
+                              )
+                            : _c(
+                                "svg",
+                                {
+                                  staticClass: "bi bi-eye-slash",
+                                  attrs: {
+                                    width: "1.5em",
+                                    height: "1.5em",
+                                    viewBox: "0 0 16 16",
+                                    fill: "currentColor",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299l.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709z"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      "fill-rule": "evenodd",
+                                      d:
+                                        "M13.646 14.354l-12-12 .708-.708 12 12-.708.708z"
+                                    }
+                                  })
+                                ]
+                              )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "view text-black-50 ml-2",
+                          on: {
+                            click: function($event) {
+                              return _vm.delTerminal(index)
+                            }
+                          }
                         },
                         [
                           _c(
-                            "a",
+                            "svg",
                             {
-                              staticClass: "dropdown-item",
-                              on: {
-                                click: function($event) {
-                                  return _vm.setUse(index, 1)
-                                }
+                              staticClass: "bi bi-trash-fill",
+                              attrs: {
+                                width: "1.2em",
+                                height: "1.2em",
+                                viewBox: "0 0 16 14",
+                                fill: "currentColor",
+                                xmlns: "http://www.w3.org/2000/svg"
                               }
                             },
-                            [_vm._v("사용")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "dropdown-item",
-                              on: {
-                                click: function($event) {
-                                  return _vm.setUse(index, 0)
+                            [
+                              _c("path", {
+                                attrs: {
+                                  "fill-rule": "evenodd",
+                                  d:
+                                    "M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"
                                 }
-                              }
-                            },
-                            [_vm._v("중지")]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "dropdown-divider" }),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "dropdown-item",
-                              on: {
-                                click: function($event) {
-                                  return _vm.delTerminal(index)
-                                }
-                              }
-                            },
-                            [_vm._v("삭제")]
+                              })
+                            ]
                           )
                         ]
                       )
-                    ]),
-                    _vm._v(" "),
-                    _c("span", [_vm._v(_vm._s(terminal.name))])
+                    ])
                   ]
                 )
               }),
               _vm._v(" "),
               _c("li", { staticClass: "list-group-item" }, [
-                _c("div", { staticClass: "input-group" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.name,
-                        expression: "form.name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "터미널 이름" },
-                    domProps: { value: _vm.form.name },
+                _c(
+                  "form",
+                  {
                     on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.form, "name", $event.target.value)
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.addTerminal($event)
                       }
                     }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "input-group-append" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "btn \n                                btn-outline-secondary",
-                        attrs: { type: "button" },
-                        on: { click: _vm.addTerminal }
-                      },
-                      [_vm._v("출발시간 추가")]
-                    )
-                  ])
-                ])
+                  },
+                  [
+                    _c("div", { staticClass: "input-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.name,
+                            expression: "form.name"
+                          }
+                        ],
+                        staticClass: "form-control mr-2",
+                        attrs: { type: "text", placeholder: "터미널 이름" },
+                        domProps: { value: _vm.form.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "name", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(0)
+                    ])
+                  ]
+                )
               ])
             ],
             2
@@ -38145,12 +38551,34 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm.sel.id ? _c("schedules", { attrs: { terminal: _vm.sel } }) : _vm._e()
+      _vm.sel.id
+        ? _c("schedules", {
+            attrs: { terminal: _vm.sel },
+            on: { close: _vm.unSetSel }
+          })
+        : _vm._e()
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-append" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "btn \n                                    btn-outline-primary",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("터미널 추가")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 

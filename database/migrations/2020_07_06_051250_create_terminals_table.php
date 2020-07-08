@@ -16,7 +16,7 @@ class CreateTerminalsTable extends Migration
         Schema::create('terminals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedTinyInteger('use')->default(1);
+            $table->unsignedTinyInteger('use')->default(0);
             $table->timestamps();
         });
     }

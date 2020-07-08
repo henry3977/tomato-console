@@ -18,7 +18,7 @@ class CreateSchedulesTable extends Migration
             $table->bigInteger('from')->comment('terminals.id');
             $table->bigInteger('to')->comment('terminals.id');
             $table->time('time', 0);
-            $table->unsignedTinyInteger('use')->default(1);
+            $table->unsignedTinyInteger('use')->default(0);
             $table->timestamps();
         });
     }
