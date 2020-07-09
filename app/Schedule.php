@@ -56,4 +56,14 @@ class Schedule extends Model
         if ($this::with('stop')->find($this->id)->stop) $res = true;
         return $res;
     }
+
+    public function getSchedules($to, $from)
+    {
+        return $this::select('id', 'from', 'to', 'time', 'use')
+            ->where([
+                ['to', $to],
+                ['from', $from]
+            ])
+            ->get();
+    }
 }

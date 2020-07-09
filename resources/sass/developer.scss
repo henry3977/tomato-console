@@ -27,11 +27,17 @@
     border-radius: 1.25rem;
 }
 
-// .sel {
-//     background-color: #e9e9e9;
-//     animation-name: sel;
-//     animation-duration: 0.5s;
-// }
+.input-group > .form-control:not(:last-child), .input-group > .custom-select:not(:last-child) {
+    border-top-right-radius: 1.25rem;
+    border-bottom-right-radius: 1.25rem;
+}
+
+.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+    border-top-left-radius: 1.25rem;
+    border-bottom-left-radius: 1.25rem;
+}
+
+
 
 .axios {
     background-color: #fff;
@@ -71,18 +77,23 @@ button.view {
 //     visibility: visible;
 // }
 
-// @keyframes sel {
-//     from {background-color: #fff;}
-//     to {background-color: #e9e9e9;}
+// .alert-ani {
+
+//     animation-name: alert;
+//     animation-duration: 1.5s;
+//     animation-iteration-count: infinite;
+
 // }
-.input-group > .form-control:not(:last-child), .input-group > .custom-select:not(:last-child) {
-    border-top-right-radius: 1.25rem;
-    border-bottom-right-radius: 1.25rem;
-}
-.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
-    border-top-left-radius: 1.25rem;
-    border-bottom-left-radius: 1.25rem;
-}
+
+// @keyframes alert {
+//     0% { opacity: 1; }
+//     50% { opacity: 0.4; }
+//     100% { opacity: 1; }
+
+// }
+
+
+
 @keyframes axios {
     from {background-color: #e9e9e9;}
     to {background-color: #fff;}

@@ -3,16 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Scopes\UseScope;
+use Illuminate\Database\Eloquent\Builder;
 
 class Terminal extends Model
 {
     protected $guarded = [];
-
-    public function scopeExceptTomato($query)
-    {
-        return $query->where('id', '!=', 1);
-    }
 
     public function fromSchedules()
     {
@@ -24,20 +19,30 @@ class Terminal extends Model
         return $this->hasMany('App\Schedule', 'to');
     }
 
-    public function getToList()
+    public function getUseToList($from)
     {
-        return $this::has('toSchedules')
+        return $this::whereHas('toSchedules', function (Builder $query) {
+                $query->where('use', '=', 1);
+            })
             ->select('id', 'name')
-            ->exceptTomato()
+            ->where('id', '!=', 1)
             ->get();
     }
 
-    public function getToSchedules($to)
+    public function getToList($from)
+    {
+        return $this::select('id', 'name', 'use')
+            ->where('id', '!=', $from)
+            ->get();
+    }
+
+    public function getUseToSchedules($to)
     {
         $terminal = $this::find($to);
         if ($terminal === null) return response()->json(['message'=> 'Not found id' ], 403);
         return $terminal->toSchedules()
             ->select('id', 'from', 'to', 'time')
+            ->where('use', '=', 1)
             ->fromTomato()
             ->get();
     }

@@ -133,7 +133,7 @@
                 })
             },
             delSchedule (index) {
-                let input = prompt('잘못 누른거 아니지? "시간"을 다시 입력해봐. 그리고 다시는 복구할수 없는거 알지?')
+                let input = prompt('삭제하고 싶다면 "시간"을 입력해.')
                 let time = this.schedules[index].time
 
                 if (input !== null && input !== time) {

@@ -21,28 +21,18 @@ class DashBoardController extends Controller
     public function view()
     {
         return view('dashboard', [
-            'terminals' => $this->terminal::select('id', 'name', 'use')
-                ->exceptTomato()
-                ->get()
+            'terminals' => $this->terminal->getToList(1)
         ]);
     }
 
     public function getToSchedules($id)
     {
-        return $this->terminal::find($id)
-            ->toSchedules()
-            ->select('id', 'from', 'to', 'time', 'use')
-            ->fromTomato()
-            ->get();
+        return $this->schedule->getSchedules($id, 1);
     }
 
     public function getFromSchedules($id)
     {
-        return $this->terminal::find($id)
-            ->fromSchedules()
-            ->select('id', 'from', 'to', 'time', 'use')
-            ->toTomato()
-            ->get();
+        return $this->schedule->getSchedules(1, $id);
     }
 
     public function setUseTerminal(Request $request)

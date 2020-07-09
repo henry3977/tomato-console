@@ -34,7 +34,6 @@ Route::post('/add-from-schedule','DashBoardController@addFromSchedule');
 Route::delete('/terminal/{id}','DashBoardController@delTerminal');
 Route::delete('/schedule/{id}','DashBoardController@delSchedule');
 
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

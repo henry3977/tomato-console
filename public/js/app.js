@@ -2079,7 +2079,7 @@ __webpack_require__.r(__webpack_exports__);
     delSchedule: function delSchedule(index) {
       var _this3 = this;
 
-      var input = prompt('잘못 누른거 아니지? "시간"을 다시 입력해봐. 그리고 다시는 복구할수 없는거 알지?');
+      var input = prompt('삭제하고 싶다면 "시간"을 입력해.');
       var time = this.schedules[index].time;
 
       if (input !== null && input !== time) {
@@ -2131,11 +2131,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Schedules_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Schedules.vue */ "./resources/js/components/Schedules.vue");
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2277,7 +2272,7 @@ __webpack_require__.r(__webpack_exports__);
     delTerminal: function delTerminal(index) {
       var _this3 = this;
 
-      var input = prompt('잘못 누른거 아니지? 정말 삭제하고 싶다면 터미널"이름"을 입려해. 해당 터미널에 등록된 시간표까지 전부 삭제되니까 조심하고, 다시 복구할수 없는거 알지?');
+      var input = prompt('삭제하고 싶다면 터미널"이름"을 입려해. 터미널에 등록된 시간표까지 전부 삭제되니까 조심하고');
       var name = this.terminals[index].name;
 
       if (input !== null && input !== name) {
@@ -38270,30 +38265,39 @@ var render = function() {
     [
       _c("div", { staticClass: "col-sm-6 col-md-6 col-lg-4 col-xl-2" }, [
         _c("div", { staticClass: "card shadow none-border" }, [
-          _c("div", { staticClass: "card-header text-center" }, [
-            _c(
-              "svg",
-              {
-                staticClass: "bi bi-geo-alt text-primary",
-                attrs: {
-                  width: "2.5em",
-                  height: "2.5em",
-                  viewBox: "0 0 16 16",
-                  fill: "currentColor",
-                  xmlns: "http://www.w3.org/2000/svg"
-                }
-              },
-              [
-                _c("path", {
+          _c(
+            "div",
+            {
+              staticClass:
+                "card-header d-flex justify-content-between align-items-center"
+            },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "bi bi-geo-alt text-primary",
                   attrs: {
-                    "fill-rule": "evenodd",
-                    d:
-                      "M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+                    width: "2.5em",
+                    height: "2.5em",
+                    viewBox: "0 0 16 16",
+                    fill: "currentColor",
+                    xmlns: "http://www.w3.org/2000/svg"
                   }
-                })
-              ]
-            )
-          ]),
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "fill-rule": "evenodd",
+                      d:
+                        "M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("h5", { staticClass: "mb-0" }, [_vm._v("사창리 터미널")])
+            ]
+          ),
           _vm._v(" "),
           _c(
             "ul",
@@ -38528,7 +38532,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control mr-2",
-                        attrs: { type: "text", placeholder: "터미널 이름" },
+                        attrs: { type: "text", placeholder: "이름" },
                         domProps: { value: _vm.form.name },
                         on: {
                           input: function($event) {
@@ -38574,7 +38578,7 @@ var staticRenderFns = [
             "btn \n                                    btn-outline-primary",
           attrs: { type: "submit" }
         },
-        [_vm._v("터미널 추가")]
+        [_vm._v("행선지 추가")]
       )
     ])
   }
