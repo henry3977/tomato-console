@@ -1,6 +1,6 @@
 # TOMATO API
 
-주소 [http://tomato-console.ga](http://tomato-console.ga)
+주소 [http://tomato-console.ga/api](http://tomato-console.ga/api)
 
 ## Error
 status 422
@@ -11,11 +11,11 @@ status 422
 
 ## GET to terminals
 
-요청
+**요청**
 
     http://tomato-console.ga/api/to-terminals
     
-응답
+**응답**
                   
     [
         {
@@ -30,11 +30,11 @@ status 422
 
 ## GET scedules
 
-요청
+**요청**
 
     http://tomato-console.ga/api/schedules/2
     
-응답
+**응답**
     
     [
         {
