@@ -1,6 +1,6 @@
 # TOMATO API
 
-주소 [http://tomato-console.ga/api](http://tomato-console.ga/api)
+주소 http://tomato-console.ga/api
 
 ## Error
 status 422
