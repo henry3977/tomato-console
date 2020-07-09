@@ -3,7 +3,7 @@
 주소 http://tomato-console.ga/api
 
 ## Error
-status 422
+status 403
     
     {   
         "message": "Error message"
